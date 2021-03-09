@@ -1,0 +1,16 @@
+{
+  "name": "eb-fellow-starter",
+  "version": "1.0.0",
+  "description": "Starter code for Execute Big Fellowship's beginner workshop",
+  "main": "runner.js",
+  "repository": "git@github.com:executebig/fellowship-starter.git",
+  "author": "Mingjie Jiang <jiang@mingjie.dev>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "start": "node runner.js"
+  }
+}
