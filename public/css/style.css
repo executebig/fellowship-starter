@@ -21,7 +21,6 @@ html {
   background-image: url("https://source.unsplash.com/1920x1080/?nature");
   background-position: center;
   background-size: cover;
-  filter: ;
   opacity: 0;
   filter: blur(50px) brightness(0.5);
 
