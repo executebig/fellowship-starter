@@ -1,123 +1,110 @@
 /**
  * This is the JavaScript file that we wrote for you to handle
- * certain features without having you worry too much about the 
+ * certain features without having you worry too much about the
  * underlying tasks
- * 
- * You do not need to change or remove this file. You are also 
+ *
+ * You do not need to change or remove this file. You are also
  * not required to use these functions.
- * 
+ *
  * AUTHOR: @itsmingjie
  */
 
 class Utils {
-
+  /** calling `saveObject(key, object)` will save the referenced
+   * object to the browser's LocalStorage under key. */
   static saveObject = (key, object) => {
     if (this._isEmpty(key)) {
-      throw new Error("Key cannot be empty.")
+      throw new Error("Key cannot be empty.");
     } else if (this._isFunction(object)) {
-      throw new Error("Cannot save functions")
+      throw new Error("Cannot save functions");
     } else if (object instanceof Node) {
-      throw new Error("Cannot save DOM elements")
+      throw new Error("Cannot save DOM elements");
     }
 
-    let serialized = JSON.stringify(object)
-    localStorage.setItem(key, serialized)
-  }
+    let serialized = JSON.stringify(object);
+    localStorage.setItem(key, serialized);
+  };
 
+  /** calling `readObject(key)` will return the object stored in the 
+   *  browser's LocalStorage under key. If the object does not 
+   *  exist, null will be returned. */
   static readObject = (key) => {
-    console.log(key)
+    console.log(key);
 
     if (this._isEmpty(key)) {
-      throw new Error("Key cannot be empty.")
+      throw new Error("Key cannot be empty.");
     }
 
-    let serialized = localStorage.getItem(key)
-    return JSON.parse(serialized)
-  }
+    let serialized = localStorage.getItem(key);
+    return JSON.parse(serialized);
+  };
 
+  /** calling `removeObject(key)` will remove the object stored in the 
+   *  browser's LocalStorage under key, and will return the object removed. 
+   *  If the object does not exist, null will be returned. */
   static removeObject = (key) => {
-    object = this.readObject(key)
+    object = this.readObject(key);
 
     if (object != null) {
-      localStorage.removeItem(key)
+      localStorage.removeItem(key);
     }
 
-    return object
-  }
+    return object;
+  };
 
   static _isEmpty = (string) => {
-    return (!string || 0 === string.length)
-  }
+    return !string || 0 === string.length;
+  };
 
   static _isFunction = (o) => {
-    return o && {}.toString.call(o) === '[object Function]';
-  }
-
+    return o && {}.toString.call(o) === "[object Function]";
+  };
 }
 
+/** Unit tests to test Utils functionalities */
 class UtilsTester {
-
   static run = () => {
-    this.primitiveSanityTest()
-    this.objectSanityTest()
-  }
-  
+    this.primitiveSanityTest();
+    this.objectSanityTest();
+  };
+
   static primitiveSanityTest = () => {
-    let x = 10
-    let y = "Hello World"
-    let z = false
+    let x = 10;
+    let y = "Hello World";
+    let z = false;
 
-    Utils.saveObject("x", x)
-    Utils.saveObject("y", y)
-    Utils.saveObject("z", z)
+    Utils.saveObject("x", x);
+    Utils.saveObject("y", y);
+    Utils.saveObject("z", z);
 
-    console.assert(Utils.readObject("x") === x, "value of x is incorrect")
-    console.assert(Utils.readObject("y") === y, "value of y is incorrect")
-    console.assert(Utils.readObject("z") === z, "value of z is incorrect")
-  }
+    console.assert(Utils.readObject("x") === x, "value of x is incorrect");
+    console.assert(Utils.readObject("y") === y, "value of y is incorrect");
+    console.assert(Utils.readObject("z") === z, "value of z is incorrect");
+  };
 
   static objectSanityTest = () => {
-    let car = { type:"Fiat", model: "500", color: "white" }
-    Utils.saveObject("car", car)
+    let car = { type: "Fiat", model: "500", color: "white" };
+    Utils.saveObject("car", car);
 
-    console.assert(this._objEq(Utils.readObject("car"), car), "value of car is incorrect")
-  }
+    console.assert(
+      this._objEq(Utils.readObject("car"), car),
+      "value of car is incorrect"
+    );
+  };
 
   /* from https://stackoverflow.com/a/6713782/11288183 */
   static _objEq = (x, y) => {
-      if ( x === y ) return true;
-    // if both x and y are null or undefined and exactly the same
-
-  if ( ! ( x instanceof Object ) || ! ( y instanceof Object ) ) return false;
-    // if they are not strictly equal, they both need to be Objects
-
-  if ( x.constructor !== y.constructor ) return false;
-    // they must have the exact same prototype chain, the closest we can do is
-    // test there constructor.
-
-  for ( var p in x ) {
-    if ( ! x.hasOwnProperty( p ) ) continue;
-      // other properties were tested using x.constructor === y.constructor
-
-    if ( ! y.hasOwnProperty( p ) ) return false;
-      // allows to compare x[ p ] and y[ p ] when set to undefined
-
-    if ( x[ p ] === y[ p ] ) continue;
-      // if they have the same strict value or identity then they are equal
-
-    if ( typeof( x[ p ] ) !== "object" ) return false;
-      // Numbers, Strings, Functions, Booleans must be strictly equal
-
-    if ( ! object_equals( x[ p ],  y[ p ] ) ) return false;
-      // Objects and Arrays must be tested recursively
-  }
-
-  for ( p in y )
-    if ( y.hasOwnProperty( p ) && ! x.hasOwnProperty( p ) )
-      return false;
-        // allows x[ p ] to be set to undefined
-
-  return true;
-  }
-
+    if (x === y) return true;
+    if (!(x instanceof Object) || !(y instanceof Object)) return false;
+    if (x.constructor !== y.constructor) return false;
+    for (var p in x) {
+      if (!x.hasOwnProperty(p)) continue;
+      if (!y.hasOwnProperty(p)) return false;
+      if (x[p] === y[p]) continue;
+      if (typeof x[p] !== "object") return false;
+      if (!object_equals(x[p], y[p])) return false;
+    }
+    for (p in y) if (y.hasOwnProperty(p) && !x.hasOwnProperty(p)) return false;
+    return true;
+  };
 }
