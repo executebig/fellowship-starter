@@ -52,6 +52,27 @@ class Utils {
     return object;
   };
 
+  /** Easy API wrapper to handle weather services */
+  static getWeather = (location) => {
+    const key = "6901dba290c149bb9ef173507210204";
+    return new Promise((resolve, reject) => {
+      let response = 
+      fetch(`https://api.weatherapi.com/v1/current.json?key=${key}&q=${location}`)
+        .then((response) => {
+          if (response.status >= 400 && response.status < 600) {
+            throw new Error("Something is off. Check your query?");
+          }
+          return response.json()
+        }).then(data => {
+          
+          resolve(data.current)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    })
+  }
+
   static _isEmpty = (string) => {
     return !string || 0 === string.length;
   };
@@ -60,6 +81,7 @@ class Utils {
     return o && {}.toString.call(o) === "[object Function]";
   };
 }
+
 
 /** Unit tests to test Utils functionalities */
 class UtilsTester {
